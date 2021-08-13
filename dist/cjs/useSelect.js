@@ -131,12 +131,16 @@ function useSelect(_ref) {
     };
   }, [onMouseDown]);
   (0, _react.useEffect)(function () {
-    if (valueRef.current === defaultValue) {
+    if (valueRef.current === defaultValue || !defaultValue) {
       return;
     }
 
-    valueRef.current = defaultValue;
-    setValue((0, _getOptions["default"])(defaultValue, null, options, multiple));
+    var newValue = (0, _getOptions["default"])(defaultValue, null, options, multiple);
+
+    if (newValue) {
+      valueRef.current = defaultValue;
+      setValue(newValue);
+    }
   }, [defaultValue, multiple, options]);
   return [snapshot, valueProps, optionProps, setValue];
 }

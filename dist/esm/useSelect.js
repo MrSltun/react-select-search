@@ -85,12 +85,16 @@ export default function useSelect({
     onMouseDown
   }), [onMouseDown]);
   useEffect(() => {
-    if (valueRef.current === defaultValue) {
+    if (valueRef.current === defaultValue || !defaultValue) {
       return;
     }
 
-    valueRef.current = defaultValue;
-    setValue(getOptions(defaultValue, null, options, multiple));
+    const newValue = getOptions(defaultValue, null, options, multiple);
+
+    if (newValue) {
+      valueRef.current = defaultValue;
+      setValue(newValue);
+    }
   }, [defaultValue, multiple, options]);
   return [snapshot, valueProps, optionProps, setValue];
 }
